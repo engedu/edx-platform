@@ -26,6 +26,7 @@ from xblock.test.tools import blocks_are_equivalent
 from opaque_keys.edx.locator import BlockUsageLocator, CourseLocator
 from xmodule.modulestore import EdxJSONEncoder
 from xmodule.modulestore.xml import XMLModuleStore
+from xmodule.raw_module import RawDescriptor
 from xmodule.tests import DATA_DIR
 from xmodule.x_module import XModuleMixin
 
@@ -150,6 +151,56 @@ class RoundTripTestCase(unittest.TestCase):
                 initial_import.modules[course_id][location],
                 second_import.modules[course_id][location]
             ))
+
+    @mock.patch('xmodule.video_module.video_module.edxval_api', None)
+    @mock.patch('xmodule.course_module.requests.get')
+    @XBlock.register_temp_plugin(RawDescriptor, 'pure')
+    def test_export_unknown_block(self, mock_get):
+        """
+        Simulate export after an XBlock type has been uninstalled.
+
+        When an unknown content type is encountered, it's imported as a
+        RawDescriptor, which will preserve the OLX and export it back out. But
+        if we import a course while an XBlock is installed and then export it
+        after that XBlock is removed, we export RawDescriptors that never got to
+        save the original OLX and have a blank "data" field. Attempting to
+        export this used to fail and break export altogether. We now test that
+        the export continues to complete, and just skips over anything it can't
+        serialize out.
+
+        I'm not happy with this test, but testing import/export in a real way
+        against a MongoDB modulestore while ignoring caching and mocking the
+        right things was... a frustrating experience. I settled for this.
+        """
+        # Patch network calls to retrieve the textbook TOC
+        mock_get.return_value.text = dedent("""
+            <?xml version="1.0"?><table_of_contents>
+            <entry page="5" page_label="ii" name="Table of Contents"/>
+            </table_of_contents>
+        """).strip()
+
+        root_dir = path(self.temp_dir)
+        data_dir = path(DATA_DIR)
+        course_dir = u"pure_xblock"
+        shutil.copytree(data_dir / course_dir, root_dir / course_dir)
+        initial_import = XMLModuleStore(
+            root_dir, source_dirs=[course_dir], xblock_mixins=(XModuleMixin,)
+        )
+
+        # Now the "pure_xblock" course is imported, but "pure" has been replaced
+        # with RawDescriptor (which would happen if we uninstalled that XBlock
+        # type). From here, we get the instance of the RawDescriptor and munge
+        # the data so that it has nothing to serialize.
+        initial_course = initial_import.get_courses()[0]
+        raw_module_instance = initial_course.get_children()[0]
+        raw_module_instance.data = ""
+
+        # Now ready the export
+        file_system = OSFS(root_dir)
+        initial_course.runtime.export_fs = file_system.makedir(course_dir, recreate=True)
+        root = lxml.etree.Element('root')
+        initial_course.add_xml_to_node(root)
+        self.assertFalse(root)  # No children, because the unknown module won't export
 
 
 class TestEdxJsonEncoder(unittest.TestCase):

@@ -429,6 +429,9 @@ class XmlParserMixin(object):
         """
         # Get the definition
         xml_object = self.definition_to_xml(self.runtime.export_fs)
+        if xml_object is None:
+            return
+
         for aside in self.runtime.get_asides(self):
             if aside.needs_serialization():
                 aside_node = etree.Element("unknown_root", nsmap=XML_NAMESPACES)
