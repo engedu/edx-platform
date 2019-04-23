@@ -1082,4 +1082,18 @@ if settings.FEATURES.get('ENABLE_API_DOCS'):
         url(r'^api-docs/$', get_swagger_view(title='LMS API')),
     ]
 
+# if settings.FEATURES.get('CUSTOM_PROGRESS_ENABLE'):
+urlpatterns += [
+    url(
+        r'^courses/{}/custom_progress/'.format(
+            settings.COURSE_ID_PATTERN,
+        ),
+        include('lms.djangoapps.custom_progress.urls'),
+        name='custom_progress_endpoint',
+    ),
+]
+
 urlpatterns.extend(plugin_urls.get_patterns(plugin_constants.ProjectType.LMS))
+
+
+

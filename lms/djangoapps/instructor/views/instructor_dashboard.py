@@ -635,6 +635,7 @@ def _section_data_download(course, access):
         'course_survey_results_url': reverse('get_course_survey_results', kwargs={'course_id': unicode(course_key)}),
         'export_ora2_data_url': reverse('export_ora2_data', kwargs={'course_id': unicode(course_key)}),
     }
+    print(section_data)
     return section_data
 
 

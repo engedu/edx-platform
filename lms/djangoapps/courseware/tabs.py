@@ -309,7 +309,6 @@ def get_course_tab_list(request, course):
     """
     user = request.user
     xmodule_tab_list = CourseTabList.iterate_displayable(course, user=user)
-
     # Now that we've loaded the tabs for this course, perform the Entrance Exam work.
     # If the user has to take an entrance exam, we'll need to hide away all but the
     # "Courseware" tab. The tab is then renamed as "Entrance Exam".
