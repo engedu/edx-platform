@@ -45,16 +45,16 @@ body {
 }
 
 a:not(.btn) {
-  color: $link-color;
+  color: theme-color("primary");
 }
 
 a:visited:not(.btn) {
-  color: #003655;  // from the Pattern Library http://ux.edx.org/design_elements/colors/
+  color: darken(theme-color("primary"), 20%);  // from the Pattern Library http://ux.edx.org/design_elements/colors/
 }
 
 a:hover:not(.btn),
 a:focus:not(.btn) {
-  color: #0079bc;  // from the Pattern Library http://ux.edx.org/design_elements/colors/
+  color: darken(theme-color("primary"), 10%);  // from the Pattern Library http://ux.edx.org/design_elements/colors/
 }
 
 abbr[title] { border-bottom: 1px dotted; }

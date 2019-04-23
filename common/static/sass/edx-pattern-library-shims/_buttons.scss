@@ -156,4 +156,15 @@
 // ----------------------------
 .btn-brand {
   @extend .btn-primary;
+
+  background: darken(white, 5%);
+  border-color: darken(white, 5%);
+
+  &:hover,
+  &.is-hovered,
+  &:focus,
+  &.is-focused {
+    border-color: darken(white, 5%);
+    background-color: darken(white, 5%);
+  }
 }

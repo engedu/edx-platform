@@ -423,7 +423,7 @@ button.accordion-trigger, button.prerequisite-button {
   cursor: pointer;
 
   .fa {
-    color: $blue;
+    color: theme-color("primary");
   }
 }
 

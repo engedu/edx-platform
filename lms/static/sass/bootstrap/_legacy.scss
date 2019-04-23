@@ -90,7 +90,8 @@ $lms-preview-menu-color: $gray-400 !default;
 $success-color-hover: darken($success, 15%) !default;
 $lms-hero-color: #005e90 !default;
 $border-color-2: $gray-400 !default;
-$link-hover: #065683 !default; // wcag2a compliant
+$link-color: theme-color("primary") !default;
+$link-hover: darken(theme-color("primary"), 20%) !default; // wcag2a compliant
 
 // Blacks
 $black:     rgb(0, 0, 0) !default;

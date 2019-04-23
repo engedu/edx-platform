@@ -385,7 +385,7 @@
     .wrapper-profile-section-one {
       width: 300px;
       background-color: $white;
-      border-top: 5px solid $blue;
+      border-top: 5px solid theme-color("primary");
       padding-bottom: $baseline;
 
       @media (max-width: $learner-profile-container-flex) { // Switch to map-get($grid-breakpoints,md) for bootstrap

@@ -14,7 +14,7 @@
     <footer>
       <div class="row">
         <div class="col-md-9">
-          <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('About')}">
+          <!-- <nav class="navbar site-nav navbar-expand-sm" aria-label="${_('About')}">
             <ul class="navbar-nav">
               % for item_num, link in enumerate(footer['navigation_links'], start=1):
                 <li class="nav-item">
@@ -22,7 +22,7 @@
                 </li>
               % endfor
             </ul>
-          </nav>
+          </nav> -->
 
           ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
           <p class="copyright">${footer['copyright']} ${u" | {icp}".format(icp=getattr(settings,'ICP_LICENSE')) if getattr(settings,'ICP_LICENSE',False) else ""}</p>
@@ -69,7 +69,7 @@
       % endif
     >
       <div class="colophon">
-        <nav class="nav-colophon" aria-label="${_('About')}">
+        <!-- <nav class="nav-colophon" aria-label="${_('About')}">
           <ol>
               % for item_num, link in enumerate(footer['navigation_links'], start=1):
               <li class="nav-colophon-0${item_num}">
@@ -77,13 +77,13 @@
               </li>
               % endfor
           </ol>
-        </nav>
+        </nav> -->
 
         % if context.get('include_language_selector', footer_language_selector_is_enabled()):
             <%include file="${static.get_template_path('widgets/footer-language-selector.html')}"/>
         % endif
 
-        <div class="wrapper-logo">
+        <!-- <div class="wrapper-logo">
           <p>
             <a href="/">
               ## The default logo is a placeholder.
@@ -96,7 +96,7 @@
               <img alt="organization logo" src="${footer['logo_image']}">
             </a>
           </p>
-        </div>
+        </div> -->
 
         ## Site operators: Please do not remove this paragraph! This attributes back to edX and makes your acknowledgement of edX's trademarks clear.
         <p class="copyright">${footer['copyright']} ${u" | {icp}".format(icp=getattr(settings,'ICP_LICENSE')) if getattr(settings,'ICP_LICENSE',False) else ""}</p>

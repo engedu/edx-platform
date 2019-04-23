@@ -30,11 +30,12 @@
       @extend %link-text;
 
       border-bottom: none;
+      color: theme-color("primary");
 
       &:hover,
       &:focus,
       &:active {
-        border-bottom: 1px dotted $link-color;
+        border-bottom: 1px dotted theme-color("primary");
       }
     }
 

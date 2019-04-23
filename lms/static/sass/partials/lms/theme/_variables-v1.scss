@@ -418,16 +418,16 @@ $button-bg-color: transparent !default;
 $button-bg-hover-color: $white !default;
 
 // action - primary
-$action-primary-bg: $m-blue-d3 !default;
+$action-primary-bg: theme-color("primary") !default;
 $action-primary-fg: $white !default;
-$action-primary-shadow: $m-blue-d4 !default;
-$action-primary-focused-bg: $m-blue-d1 !default;
+$action-primary-shadow: darken(theme-color("primary"), 20%) !default;
+$action-primary-focused-bg: darken(theme-color("primary"), 10%) !default;
 $action-primary-focused-fg: $white !default;
-$action-primary-active-bg: $m-blue !default;
-$action-primary-active-fg: $m-blue-d3 !default;
-$action-primary-active-shadow: $m-blue-d2 !default;
-$action-primary-active-focused-fg: $m-blue-d4 !default;
-$action-primary-active-focused-shadow: $m-blue-d3 !default;
+$action-primary-active-bg: theme-color("primary") !default;
+$action-primary-active-fg: darken(theme-color("primary"), 20%) !default;
+$action-primary-active-shadow: darken(theme-color("primary"), 10%) !default;
+$action-primary-active-focused-fg: darken(theme-color("primary"), 20%) !default;
+$action-primary-active-focused-shadow: darken(theme-color("primary"), 20%) !default;
 $action-primary-disabled-bg: $m-gray-d3 !default;
 $action-prmary-disabled-fg: $white !default;
 
@@ -446,7 +446,8 @@ $action-secondary-disabled-bg: $m-gray-d3 !default;
 $action-secondary-disabled-fg: $white !default;
 
 // actions - misc
-$link-hover: $uxpl-blue-hover-active !default; // from our Pattern Library http://ux.edx.org/design_elements/colors/
+$link-color: theme-color("primary") !default;
+$link-hover: darken(theme-color("primary"), 20%) !default; // from our Pattern Library http://ux.edx.org/design_elements/colors/
 $site-status-color: $pink !default;
 $button-color: theme-color("primary") !default;
 $button-archive-color: rgb(238, 238, 238) !default; // #eeeeee
@@ -462,7 +463,7 @@ $container-bg: $white !default;
 $header-image: linear-gradient(-90deg, rgba(255, 255, 255, 1), rgba(230, 230, 230, 0.9)) !default;
 $header-bg: $white !default;
 $header-border-color: $blue !default;
-$header-graphic-super-color: $m-blue-d1 !default;
+$header-graphic-super-color: lighten(theme-color("primary"), 10%) !default;
 $header-graphic-sub-color: $m-gray-d2 !default;
 $header-sans-serif: 'Open Sans', Arial, Helvetica, sans-serif !default;
 $header_image_margin: -69px !default;
