@@ -2039,7 +2039,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'djcelery',
-    'custom_progress',
+
 
     # Common Initialization
     'openedx.core.djangoapps.common_initialization.apps.CommonInitializationConfig',
@@ -2317,6 +2317,9 @@ INSTALLED_APPS = [
 
     # API Documentation
     'rest_framework_swagger',
+
+    # Progress Summary
+    'custom_progress',
 ]
 
 ######################### CSRF #########################################

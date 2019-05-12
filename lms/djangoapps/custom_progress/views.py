@@ -83,14 +83,10 @@ def _show_progress(request, course_key, student_id):
         courseenrollment__is_active=1,
     ).order_by('username')
 
-    print("LV1")
     # for i in CourseGradeFactory().iter(enrolled_students, course_key):
     #     print(i)
     max_percent_grade = _max_grade_course(request, course, course_key)
-    print("LV2")
-    print('************************************************************')
-    print(max_percent_grade)
-    print('************************************************************')
+
     # studio_url = get_studio_url(course, 'settings/grading')
     # checking certificate generation configuration
     enrollment_mode, _ = CourseEnrollment.enrollment_mode_for_user(student, course_key)

@@ -1,9 +1,8 @@
 from django.utils.translation import ugettext_noop
-from courseware.tabs import EnrolledTab
-from django.conf import settings
+from xmodule.tabs import CourseTab
 
 
-class CustomProgressTab(EnrolledTab):
+class CustomProgressTab(CourseTab):
     """
     The representation of the course teams view type.
     """
@@ -11,7 +10,7 @@ class CustomProgressTab(EnrolledTab):
     name = "Custom Progress"
     title = ugettext_noop("Custom Progress")
     view_name = "custom_progress_view"
-    is_default = False
+    is_default = True
     is_hideable = True
 
     @classmethod

@@ -1082,6 +1082,8 @@ if settings.FEATURES.get('ENABLE_API_DOCS'):
         url(r'^api-docs/$', get_swagger_view(title='LMS API')),
     ]
 
+urlpatterns.extend(plugin_urls.get_patterns(plugin_constants.ProjectType.LMS))
+
 # if settings.FEATURES.get('CUSTOM_PROGRESS_ENABLE'):
 urlpatterns += [
     url(
@@ -1092,8 +1094,3 @@ urlpatterns += [
         name='custom_progress_endpoint',
     ),
 ]
-
-urlpatterns.extend(plugin_urls.get_patterns(plugin_constants.ProjectType.LMS))
-
-
-
