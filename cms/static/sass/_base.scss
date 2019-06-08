@@ -441,6 +441,8 @@ dl {
 // +Layout - Primary Content
 // ====================
 .content-primary {
+  width:  100% !important;
+  
   .title-1 {
     @extend %t-title3;
   }
@@ -482,6 +484,7 @@ dl {
 // +Layout - Supplemental Content
 // ====================
 .content-supplementary {
+  display: none !important;
   > section {
     margin: 0 0 $baseline 0;
   }
