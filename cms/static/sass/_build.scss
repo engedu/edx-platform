@@ -4,6 +4,10 @@
 @import 'cms/theme/variables';
 
 // Core Bootstrap functions, variables and mixins
+$theme-colors: (
+    primary: #f15c22,
+    inverse: #fff
+);
 @import 'bootstrap/variables';
 @import 'bootstrap/scss/functions';
 @import 'bootstrap/scss/variables';

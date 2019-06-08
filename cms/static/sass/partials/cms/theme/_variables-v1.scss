@@ -41,7 +41,7 @@ $transparent: rgba(0, 0, 0, 0) !default; // used when color value is needed for 
 
 // +Colors - UXPL new pattern library colors
 // ====================
-$uxpl-blue-hover-active: rgb(6, 86, 131) !default; // wcag2a compliant
+$uxpl-blue-hover-active: darken(theme-color("primary"), 10%) !default; // wcag2a compliant
 $uxpl-light-blue-base: rgb(242, 248, 251) !default;
 
 $uxpl-green-base: rgb(0, 129, 0) !default; // wcag2a compliant
@@ -53,7 +53,7 @@ $uxpl-pink-hover-active: lighten($uxpl-pink-base, 7%) !default; // wcag2a compli
 
 $uxpl-grayscale-x-back: rgb(245, 245, 245) !default; // UXPL grayscale, x-back
 
-$uxpl-primary-accent: rgb(14, 166, 236) !default;
+$uxpl-primary-accent: theme-color("primary") !default;
 
 // +Colors - Primary
 // ====================
@@ -97,25 +97,25 @@ $btn-lms-gradient-hover: #d1c9c9 !default;
 $btn-lms-shadow-active: #cac2c2 !default;
 
 $blue: rgb(0, 159, 230) !default;
-$blue-l1: tint($blue, 20%) !default;
-$blue-l2: tint($blue, 40%) !default;
-$blue-l3: tint($blue, 60%) !default;
-$blue-l4: tint($blue, 80%) !default;
-$blue-l5: tint($blue, 90%) !default;
-$blue-d1: shade($blue, 20%) !default;
-$blue-d2: shade($blue, 40%) !default;
-$blue-d3: shade($blue, 60%) !default;
-$blue-d4: shade($blue, 80%) !default;
-$blue-s1: saturate($blue, 15%) !default;
-$blue-s2: saturate($blue, 30%) !default;
-$blue-s3: saturate($blue, 45%) !default;
-$blue-u1: desaturate($blue, 15%) !default;
-$blue-u2: desaturate($blue, 30%) !default;
-$blue-u3: desaturate($blue, 45%) !default;
-$blue-t0: rgba($blue, 0.125) !default;
-$blue-t1: rgba($blue, 0.25) !default;
-$blue-t2: rgba($blue, 0.5) !default;
-$blue-t3: rgba($blue, 0.75) !default;
+$blue-l1: tint(theme-color("primary"), 20%) !default;
+$blue-l2: tint(theme-color("primary"), 40%) !default;
+$blue-l3: tint(theme-color("primary"), 60%) !default;
+$blue-l4: tint(theme-color("primary"), 80%) !default;
+$blue-l5: tint(theme-color("primary"), 90%) !default;
+$blue-d1: shade(theme-color("primary"), 20%) !default;
+$blue-d2: shade(theme-color("primary"), 40%) !default;
+$blue-d3: shade(theme-color("primary"), 60%) !default;
+$blue-d4: shade(theme-color("primary"), 80%) !default;
+$blue-s1: saturate(theme-color("primary"), 15%) !default;
+$blue-s2: saturate(theme-color("primary"), 30%) !default;
+$blue-s3: saturate(theme-color("primary"), 45%) !default;
+$blue-u1: desaturate(theme-color("primary"), 15%) !default;
+$blue-u2: desaturate(theme-color("primary"), 30%) !default;
+$blue-u3: desaturate(theme-color("primary"), 45%) !default;
+$blue-t0: rgba(theme-color("primary"), 0.125) !default;
+$blue-t1: rgba(theme-color("primary"), 0.25) !default;
+$blue-t2: rgba(theme-color("primary"), 0.5) !default;
+$blue-t3: rgba(theme-color("primary"), 0.75) !default;
 
 $pink: rgb(183, 37, 103) !default; // #b72567;
 $pink-l1: tint($pink, 20%) !default;
@@ -213,7 +213,7 @@ $shadow-d2: rgba($black, 0.6) !default;
 // +Colors - Application
 // ====================
 $color-draft: $gray-l3 !default;
-$color-live: $blue !default;
+$color-live: theme-color("primary") !default;
 $color-ready: $green !default;
 $color-warning: $orange-l2 !default;
 $color-error: $red-l2 !default;
@@ -237,11 +237,11 @@ $tmg-f3: 0.125s;
 
 // +Archetype UI
 // ====================
-$ui-action-primary-color: $blue-u2 !default;
-$ui-action-primary-color-focus: $blue-s1 !default;
+$ui-action-primary-color: theme-color("primary") !default;
+$ui-action-primary-color-focus: darken(theme-color("primary"), 10%) !default;
 
-$ui-link-color: $blue-u2 !default;
-$ui-link-color-focus: $blue-s1 !default;
+$ui-link-color: theme-color("primary") !default;
+$ui-link-color-focus: darken(theme-color("primary"), 10%) !default;
 $link-color: $ui-link-color;
 
 // +Specific UI
@@ -277,7 +277,7 @@ $sidebar-color: rgb(246, 246, 246) !default;
 $body-line-height: golden-ratio(0.875em, 1);
 
 // carried over from LMS for xmodules
-$action-primary-active-bg: #1aa1de !default; // $m-blue
+$action-primary-active-bg: theme-color("primary") !default; // $m-blue
 $very-light-text: $white !default;
 
 $color-background-alternate: rgb(242, 248, 251) !default;

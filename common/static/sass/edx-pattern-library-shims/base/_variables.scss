@@ -131,7 +131,7 @@ $font-sizes: (
 
 // +Colors - UXPL new pattern library colors
 // ====================
-$uxpl-blue-hover-active: darken($primary, 7%) !default; // wcag2a compliant
+$uxpl-blue-hover-active: darken(theme-color("primary"), 7%) !default; // wcag2a compliant
 
 $uxpl-green-base: rgba(0, 129, 0, 1) !default; // wcag2a compliant
 $uxpl-green-hover-active: lighten($uxpl-green-base, 7%) !default; // wcag2a compliant

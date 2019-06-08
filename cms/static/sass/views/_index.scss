@@ -52,9 +52,9 @@
 
     // welcome content
     .wrapper-content-header {
-      @include linear-gradient($blue-l1, $blue, $blue-d1);
+      @include linear-gradient(theme-color("primary"), theme-color("primary"), adjust-hue(theme-color("primary"), 10%), white);
 
-      padding-bottom: ($baseline*4);
+      padding-bottom: ($baseline*15);
       padding-top: ($baseline*4);
     }
 
@@ -69,7 +69,7 @@
 
         float: none;
         margin: 0 0 ($baseline/2) 0;
-        border-bottom: 1px solid $blue-l1;
+        border-bottom: 1px solid white;
         padding: 0;
         color: $white;
       }
@@ -88,7 +88,7 @@
         @extend %t-title4;
 
         margin: 0;
-        color: $blue-l3;
+        color: white;
       }
     }
 
@@ -126,7 +126,7 @@
 
     // feature content
     .wrapper-content-features {
-      box-shadow: 0 -1px ($baseline/4) $shadow;
+      // box-shadow: 0 -1px ($baseline/4) $shadow;
       padding-bottom: ($baseline*2);
       padding-top: ($baseline*3);
       background: $white;
