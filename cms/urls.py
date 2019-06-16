@@ -138,6 +138,8 @@ urlpatterns = [
         contentstore.views.grading_handler, name='grading_handler'),
     url(r'^settings/advanced/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.advanced_settings_handler,
         name='advanced_settings_handler'),
+    url(r'^settings/notification/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.notification_settings_handler,
+        name='notification_settings_handler'),
     url(r'^textbooks/{}$'.format(settings.COURSE_KEY_PATTERN), contentstore.views.textbooks_list_handler,
         name='textbooks_list_handler'),
     url(r'^textbooks/{}/(?P<textbook_id>\d[^/]*)$'.format(settings.COURSE_KEY_PATTERN),

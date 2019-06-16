@@ -100,6 +100,7 @@ __all__ = ['course_info_handler', 'course_handler', 'course_listing',
            'course_info_update_handler', 'course_search_index_handler',
            'course_rerun_handler',
            'settings_handler',
+           'notification_settings_handler',
            'grading_handler',
            'advanced_settings_handler',
            'course_notifications_handler',
@@ -1735,3 +1736,164 @@ def _get_course_creator_status(user):
         course_creator_status = 'granted'
 
     return course_creator_status
+
+@login_required
+@ensure_csrf_cookie
+@require_http_methods(("GET", "POST", "PUT"))
+@expect_json
+def notification_settings_handler(request, course_key_string):
+    course_key = CourseKey.from_string(course_key_string)
+    return render_to_response('notification.html', {
+        # 'context_course': course_module,
+        # 'advanced_dict': CourseMetadata.fetch(course_module),
+        'notification_settings_url': reverse_course_url('notification_settings_handler', course_key)
+    })
+    # """
+    # Course settings for dates and about pages
+    # GET
+    #     html: get the page
+    #     json: get the CourseDetails model
+    # PUT
+    #     json: update the Course and About xblocks through the CourseDetails model
+    # """
+    # course_key = CourseKey.from_string(course_key_string)
+    # credit_eligibility_enabled = settings.FEATURES.get('ENABLE_CREDIT_ELIGIBILITY', False)
+    # with modulestore().bulk_operations(course_key):
+    #     course_module = get_course_and_check_access(course_key, request.user)
+    #     if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+    #         upload_asset_url = reverse_course_url('assets_handler', course_key)
+
+    #         # see if the ORG of this course can be attributed to a defined configuration . In that case, the
+    #         # course about page should be editable in Studio
+    #         marketing_site_enabled = configuration_helpers.get_value_for_org(
+    #             course_module.location.org,
+    #             'ENABLE_MKTG_SITE',
+    #             settings.FEATURES.get('ENABLE_MKTG_SITE', False)
+    #         )
+    #         enable_extended_course_details = configuration_helpers.get_value_for_org(
+    #             course_module.location.org,
+    #             'ENABLE_EXTENDED_COURSE_DETAILS',
+    #             settings.FEATURES.get('ENABLE_EXTENDED_COURSE_DETAILS', False)
+    #         )
+
+    #         about_page_editable = not marketing_site_enabled
+    #         enrollment_end_editable = GlobalStaff().has_user(request.user) or not marketing_site_enabled
+    #         short_description_editable = configuration_helpers.get_value_for_org(
+    #             course_module.location.org,
+    #             'EDITABLE_SHORT_DESCRIPTION',
+    #             settings.FEATURES.get('EDITABLE_SHORT_DESCRIPTION', True)
+    #         )
+    #         sidebar_html_enabled = course_experience_waffle().is_enabled(ENABLE_COURSE_ABOUT_SIDEBAR_HTML)
+    #         # self_paced_enabled = SelfPacedConfiguration.current().enabled
+
+    #         settings_context = {
+    #             'context_course': course_module,
+    #             'course_locator': course_key,
+    #             'lms_link_for_about_page': get_link_for_about_page(course_module),
+    #             'course_image_url': course_image_url(course_module, 'course_image'),
+    #             'banner_image_url': course_image_url(course_module, 'banner_image'),
+    #             'video_thumbnail_image_url': course_image_url(course_module, 'video_thumbnail_image'),
+    #             'details_url': reverse_course_url('settings_handler', course_key),
+    #             'about_page_editable': about_page_editable,
+    #             'short_description_editable': short_description_editable,
+    #             'sidebar_html_enabled': sidebar_html_enabled,
+    #             'upload_asset_url': upload_asset_url,
+    #             'course_handler_url': reverse_course_url('course_handler', course_key),
+    #             'language_options': settings.ALL_LANGUAGES,
+    #             'credit_eligibility_enabled': credit_eligibility_enabled,
+    #             'is_credit_course': False,
+    #             'show_min_grade_warning': False,
+    #             'enrollment_end_editable': enrollment_end_editable,
+    #             'is_prerequisite_courses_enabled': is_prerequisite_courses_enabled(),
+    #             'is_entrance_exams_enabled': is_entrance_exams_enabled(),
+    #             'enable_extended_course_details': enable_extended_course_details
+    #         }
+    #         if is_prerequisite_courses_enabled():
+    #             courses, in_process_course_actions = get_courses_accessible_to_user(request)
+    #             # exclude current course from the list of available courses
+    #             courses = (course for course in courses if course.id != course_key)
+    #             if courses:
+    #                 courses, __ = _process_courses_list(courses, in_process_course_actions)
+    #             settings_context.update({'possible_pre_requisite_courses': list(courses)})
+
+    #         if credit_eligibility_enabled:
+    #             if is_credit_course(course_key):
+    #                 # get and all credit eligibility requirements
+    #                 credit_requirements = get_credit_requirements(course_key)
+    #                 # pair together requirements with same 'namespace' values
+    #                 paired_requirements = {}
+    #                 for requirement in credit_requirements:
+    #                     namespace = requirement.pop("namespace")
+    #                     paired_requirements.setdefault(namespace, []).append(requirement)
+
+    #                 # if 'minimum_grade_credit' of a course is not set or 0 then
+    #                 # show warning message to course author.
+    #                 show_min_grade_warning = False if course_module.minimum_grade_credit > 0 else True
+    #                 settings_context.update(
+    #                     {
+    #                         'is_credit_course': True,
+    #                         'credit_requirements': paired_requirements,
+    #                         'show_min_grade_warning': show_min_grade_warning,
+    #                     }
+    #                 )
+
+    #         return render_to_response('notification.html', settings_context)
+    #     elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
+    #         if request.method == 'GET':
+    #             course_details = CourseDetails.fetch(course_key)
+    #             return JsonResponse(
+    #                 course_details,
+    #                 # encoder serializes dates, old locations, and instances
+    #                 encoder=CourseSettingsEncoder
+    #             )
+    #         # For every other possible method type submitted by the caller...
+    #         else:
+    #             # if pre-requisite course feature is enabled set pre-requisite course
+    #             if is_prerequisite_courses_enabled():
+    #                 prerequisite_course_keys = request.json.get('pre_requisite_courses', [])
+    #                 if prerequisite_course_keys:
+    #                     if not all(is_valid_course_key(course_key) for course_key in prerequisite_course_keys):
+    #                         return JsonResponseBadRequest({"error": _("Invalid prerequisite course key")})
+    #                     set_prerequisite_courses(course_key, prerequisite_course_keys)
+    #                 else:
+    #                     # None is chosen, so remove the course prerequisites
+    #                     course_milestones = milestones_api.get_course_milestones(course_key=course_key, relationship="requires")
+    #                     for milestone in course_milestones:
+    #                         remove_prerequisite_course(course_key, milestone)
+
+    #             # If the entrance exams feature has been enabled, we'll need to check for some
+    #             # feature-specific settings and handle them accordingly
+    #             # We have to be careful that we're only executing the following logic if we actually
+    #             # need to create or delete an entrance exam from the specified course
+    #             if is_entrance_exams_enabled():
+    #                 course_entrance_exam_present = course_module.entrance_exam_enabled
+    #                 entrance_exam_enabled = request.json.get('entrance_exam_enabled', '') == 'true'
+    #                 ee_min_score_pct = request.json.get('entrance_exam_minimum_score_pct', None)
+    #                 # If the entrance exam box on the settings screen has been checked...
+    #                 if entrance_exam_enabled:
+    #                     # Load the default minimum score threshold from settings, then try to override it
+    #                     entrance_exam_minimum_score_pct = float(settings.ENTRANCE_EXAM_MIN_SCORE_PCT)
+    #                     if ee_min_score_pct:
+    #                         entrance_exam_minimum_score_pct = float(ee_min_score_pct)
+    #                     if entrance_exam_minimum_score_pct.is_integer():
+    #                         entrance_exam_minimum_score_pct = entrance_exam_minimum_score_pct / 100
+    #                     # If there's already an entrance exam defined, we'll update the existing one
+    #                     if course_entrance_exam_present:
+    #                         exam_data = {
+    #                             'entrance_exam_minimum_score_pct': entrance_exam_minimum_score_pct
+    #                         }
+    #                         update_entrance_exam(request, course_key, exam_data)
+    #                     # If there's no entrance exam defined, we'll create a new one
+    #                     else:
+    #                         create_entrance_exam(request, course_key, entrance_exam_minimum_score_pct)
+
+    #                 # If the entrance exam box on the settings screen has been unchecked,
+    #                 # and the course has an entrance exam attached...
+    #                 elif not entrance_exam_enabled and course_entrance_exam_present:
+    #                     delete_entrance_exam(request, course_key)
+
+    #             # Perform the normal update workflow for the CourseDetails model
+    #             return JsonResponse(
+    #                 CourseDetails.update_from_json(course_key, request.json, request.user),
+    #                 encoder=CourseSettingsEncoder
+    #             )
