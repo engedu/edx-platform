@@ -1743,11 +1743,23 @@ def _get_course_creator_status(user):
 @expect_json
 def notification_settings_handler(request, course_key_string):
     course_key = CourseKey.from_string(course_key_string)
-    return render_to_response('notification.html', {
-        # 'context_course': course_module,
-        # 'advanced_dict': CourseMetadata.fetch(course_module),
-        'notification_settings_url': reverse_course_url('notification_settings_handler', course_key)
-    })
+    with modulestore().bulk_operations(course_key):
+        course_module = get_course_and_check_access(course_key, request.user, depth=None)
+        course_structure = _course_outline_json(request, course_module)
+        if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
+            settings_context = {
+                'notification_settings_url': reverse_course_url('notification_settings_handler', course_key),
+                'course_structure': course_structure
+            }
+            return render_to_response('notification.html', settings_context)
+        elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
+            if request.method == 'GET':
+                return JsonResponse(
+                    course_structure,
+                    encoder=CourseSettingsEncoder
+                )
+            else:
+                pass
     # """
     # Course settings for dates and about pages
     # GET
