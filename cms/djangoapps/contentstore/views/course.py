@@ -1748,8 +1748,11 @@ def notification_settings_handler(request, course_key_string):
         course_structure = _course_outline_json(request, course_module)
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             settings_context = {
+                'context_course': course_module,
+                'course_locator': course_key,
+                'course_structure': course_structure,
+                'lms_link_for_about_page': get_link_for_about_page(course_module),
                 'notification_settings_url': reverse_course_url('notification_settings_handler', course_key),
-                'course_structure': course_structure
             }
             return render_to_response('notification.html', settings_context)
         elif 'application/json' in request.META.get('HTTP_ACCEPT', ''):
@@ -1758,8 +1761,10 @@ def notification_settings_handler(request, course_key_string):
                     course_structure,
                     encoder=CourseSettingsEncoder
                 )
+            elif request.method == 'POST':
+                raise NotImplementedError()
             else:
-                pass
+                raise NotImplementedError()
     # """
     # Course settings for dates and about pages
     # GET
