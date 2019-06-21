@@ -311,11 +311,11 @@ $facet-background-color: #007db8;
 
     position: absolute;
     top: 0;
-    border: 2px solid $m-blue-d6;
+    border: 2px solid $m-blue;
     border-radius: ($baseline*0.1);
     height: $course-search-input-height;
     padding: 0 ($baseline*0.7);
-    background: $blue;
+    background: $m-blue;
     box-shadow: none;
     color: $white;
     text-shadow: none;
