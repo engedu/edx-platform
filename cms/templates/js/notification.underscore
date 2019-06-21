@@ -1,0 +1,34 @@
+<% if(status){ %>
+<li class="field-group course-notification-item">
+	<div style="margin-bottom: 10px;">
+		<h3 class="title" id="<%= keyUniqueId %>"><%= display_name %></h3>
+    </div>
+    <hr>
+    <div>
+        <% _.each(children, function(child){ %>
+            <% if(child.due_date != ""){ %>
+            <div style="display:flex;justify-content:space-between;width:100%;">
+                <div>
+                    <%= child.display_name %>
+                </div>
+                <div>
+                    <%= child.due_date %>
+                </div>
+                <div>
+                    <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
+                    <select style="width: 150px" id="<%= valueUniqueId %>">
+                        <option value="1">1 day</option>
+                        <option value="2">2 day</option>
+                        <option value="3">3 day</option>
+                        <option value="7">7 day</option>
+                        <option value="15">15 day</option>
+                        <option value="30">30 day</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <% } %> 
+        <% }); %>
+    </div>
+</li>
+<% } %>

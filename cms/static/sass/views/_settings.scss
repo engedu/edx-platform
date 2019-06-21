@@ -1074,7 +1074,7 @@
         }
       }
 
-      .course-advanced-policy-list-item {
+      .course-advanced-policy-list-item, .course-notification-item {
         @include clearfix();
 
         position: relative;

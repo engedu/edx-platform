@@ -16,32 +16,58 @@
   from openedx.core.djangolib.markup import HTML, Text
 %>
 
+<%block name="header_extras">
+% for template_name in ["notification", "basic-modal", "modal-button", "validation-error-modal"]:
+  <script type="text/template" id="${template_name}-tpl">
+    <%static:include path="js/${template_name}.underscore" />
+  </script>
+% endfor
+</%block>
+
 <%block name="requirejs">
     require(["js/factories/settings_notification"], function(SettingsNotificationFactory) {
       SettingsNotificationFactory(
-            "${details_url | n, js_escaped_string}"
+            "${notification_settings_url | n, js_escaped_string}"
         );
     });
 </%block>
 
 <%block name="content">
-<div class="wrapper-mast wrapper">
-  <header class="mast has-subtitle">
-    <h1 class="page-header">
-      <small class="subtitle">${_("Settings")}</small>
-      <span class="sr">&gt; </span>${_("Notification")}
-    </h1>
-  </header>
-</div>
+  <div class="wrapper-mast wrapper">
+      <header class="mast has-subtitle">
+        <h1 class="page-header">
+          <small class="subtitle">${_("Settings")}</small>
+          <span class="sr">&gt; </span>${_("Notification")}
+        </h1>
+      </header>
+    </div>
+  
+  <div class="wrapper-content wrapper">
+    <section class="content">
+      <article class="content-primary" role="main">
+          <form id="settings_notification" class="settings-notification" method="post" action="">
+  
+          <div class="message message-status confirm">
+            ${_("Your Notification changes have been saved.")}
+          </div>
+  
+          <div class="message message-status error">
+            ${_("There was an error saving your information. Please see below.")}
+          </div>
+  
+          <section class="group-settings advanced-policies">
+            <!-- <header>
+              <h2 class="title-2">${_("Basic Information")}</h2>
+              <span class="tip">${_("The nuts and bolts of your course")}</span>
+            </header> -->
+            
+            <ul class="list-input course-notification enum">
 
-<div class="wrapper-content wrapper">
-  <section class="content">
-    <article class="content-primary" role="main">
-      <form id="settings_details" class="settings-notification" method="post" action="">
-        abc
-      </form>
-    </article>
-  </section>
-</div>
+            </ul>
+          </section>
+        </form>
+      </article>
+    </section>
+  </div>
 
 </%block>

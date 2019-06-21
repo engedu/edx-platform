@@ -2,7 +2,7 @@ define([
     'jquery', 'js/models/settings/notification', 'js/views/settings/notify'
 ], function($, NotificationDetailModel, NotifyView) {
     'use strict';
-    return function(detailsUrl) {
+    return function(notification_settings_url) {
         var model;
         // highlighting labels when fields are focused in
         $('form :input')
@@ -14,7 +14,7 @@ define([
             });
 
         model = new NotificationDetailModel();
-        model.urlRoot = detailsUrl;
+        model.urlRoot = notification_settings_url;
         model.fetch({
             success: function(model) {
                 var editor = new NotifyView({
