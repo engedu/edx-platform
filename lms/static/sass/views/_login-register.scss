@@ -504,9 +504,14 @@
     font-weight: 600;
     letter-spacing: normal;
     margin-top: $baseline;
+    background: $action-primary-bg;
 
     .icon {
       @extend %sso-icon;
+    }
+
+    &:hover{
+      background: $action-primary-shadow;
     }
   }
 
