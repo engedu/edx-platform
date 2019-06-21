@@ -5,6 +5,10 @@
 @import 'lms/theme/variables';
 
 // Bootstrap
+$theme-colors: (
+    primary: #f15c22,
+    inverse: #fff
+);
 @import 'bootstrap/scss/bootstrap';
 
 // LMS variables

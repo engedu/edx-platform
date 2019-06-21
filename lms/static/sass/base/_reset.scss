@@ -49,7 +49,7 @@ a:not(.btn) {
 }
 
 a:visited:not(.btn) {
-  color: darken(theme-color("primary"), 20%);  // from the Pattern Library http://ux.edx.org/design_elements/colors/
+  color: theme-color("primary");  // from the Pattern Library http://ux.edx.org/design_elements/colors/
 }
 
 a:hover:not(.btn),

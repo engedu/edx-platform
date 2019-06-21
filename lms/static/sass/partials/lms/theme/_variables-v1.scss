@@ -129,27 +129,27 @@ $yellow-u1: desaturate($yellow, 15%) !default;
 $yellow-u2: desaturate($yellow, 30%) !default;
 $yellow-u3: desaturate($yellow, 45%) !default;
 
-$blue-l1: tint($blue, 20%) !default;
-$blue-l2: tint($blue, 40%) !default;
-$blue-l3: tint($blue, 60%) !default;
-$blue-l4: tint($blue, 80%) !default;
-$blue-l5: tint($blue, 90%) !default;
-$blue-d1: shade($blue, 20%) !default;
-$blue-d2: shade($blue, 40%) !default;
-$blue-d3: shade($blue, 60%) !default;
-$blue-d4: shade($blue, 80%) !default;
-$blue-s1: saturate($blue, 15%) !default;
-$blue-s2: saturate($blue, 30%) !default;
-$blue-s3: saturate($blue, 45%) !default;
-$blue-u1: desaturate($blue, 15%) !default;
-$blue-u2: desaturate($blue, 30%) !default;
-$blue-u3: desaturate($blue, 45%) !default;
-$blue-t0: rgba($blue, 0.125) !default;
-$blue-t1: rgba($blue, 0.25) !default;
-$blue-t2: rgba($blue, 0.5) !default;
-$blue-t3: rgba($blue, 0.75) !default;
+$blue-l1: tint(theme-color("primary"), 20%) !default;
+$blue-l2: tint(theme-color("primary"), 40%) !default;
+$blue-l3: tint(theme-color("primary"), 60%) !default;
+$blue-l4: tint(theme-color("primary"), 80%) !default;
+$blue-l5: tint(theme-color("primary"), 90%) !default;
+$blue-d1: shade(theme-color("primary"), 20%) !default;
+$blue-d2: shade(theme-color("primary"), 40%) !default;
+$blue-d3: shade(theme-color("primary"), 60%) !default;
+$blue-d4: shade(theme-color("primary"), 80%) !default;
+$blue-s1: saturate(theme-color("primary"), 15%) !default;
+$blue-s2: saturate(theme-color("primary"), 30%) !default;
+$blue-s3: saturate(theme-color("primary"), 45%) !default;
+$blue-u1: desaturate(theme-color("primary"), 15%) !default;
+$blue-u2: desaturate(theme-color("primary"), 30%) !default;
+$blue-u3: desaturate(theme-color("primary"), 45%) !default;
+$blue-t0: rgba(theme-color("primary"), 0.125) !default;
+$blue-t1: rgba(theme-color("primary"), 0.25) !default;
+$blue-t2: rgba(theme-color("primary"), 0.5) !default;
+$blue-t3: rgba(theme-color("primary"), 0.75) !default;
 
-$uxpl-blue-hover-active: rgb(6, 86, 131) !default; // wcag2a compliant
+$uxpl-blue-hover-active: theme-color("primary") !default; // wcag2a compliant
 
 $uxpl-green-base: rgb(0, 129, 0) !default; // wcag2a compliant
 $uxpl-green-hover-active: rgb(0, 155, 0) !default; // wcag2a compliant
@@ -268,22 +268,22 @@ $m-gray-t2: rgba($m-gray, 0.5) !default;
 $m-gray-t3: rgba($m-gray, 0.75) !default;
 
 $m-blue: theme-color("primary");  // uxpl blue base
-$m-blue-l1: rgb(43, 172, 230) !default;
-$m-blue-l2: rgb(66, 181, 233) !default;
-$m-blue-l3: rgb(89, 190, 236) !default;
-$m-blue-l4: tint($m-blue, 90%) !default;
-$m-blue-l5: tint($m-blue, 95%) !default;
-$m-blue-l6: #4bb4fb !default;
-$m-blue-d1: rgb(23, 144, 199) !default;
-$m-blue-d2: $blue !default;
-$m-blue-d3: rgb(18, 111, 154) !default;
-$m-blue-d4: rgb(10, 74, 103) !default;
-$m-blue-d5: rgb(0, 158, 231) !default;
-$m-blue-d6: #256a97 !default;
-$m-blue-t0: rgba($m-blue, 0.125) !default;
-$m-blue-t1: rgba($m-blue, 0.25) !default;
-$m-blue-t2: rgba($m-blue, 0.5) !default;
-$m-blue-t3: rgba($m-blue, 0.75) !default;
+$m-blue-l1: rgb(230, 155, 43) !default;
+$m-blue-l2: rgb(233, 149, 66) !default;
+$m-blue-l3: rgb(236, 177, 89) !default;
+$m-blue-l4: tint(theme-color("primary"), 90%) !default;
+$m-blue-l5: tint(theme-color("primary"), 95%) !default;
+$m-blue-l6: #fbaf4b !default;
+$m-blue-d1: rgb(199, 108, 23) !default;
+$m-blue-d2: theme-color("primary") !default;
+$m-blue-d3: rgb(154, 95, 18) !default;
+$m-blue-d4: rgb(155, 72, 17) !default;
+$m-blue-d5: rgb(231, 139, 0) !default;
+$m-blue-d6: #975325 !default;
+$m-blue-t0: rgba(theme-color("primary"), 0.125) !default;
+$m-blue-t1: rgba(theme-color("primary"), 0.25) !default;
+$m-blue-t2: rgba(theme-color("primary"), 0.5) !default;
+$m-blue-t3: rgba(theme-color("primary"), 0.75) !default;
 
 $m-pink: $uxpl-pink-base; // uxpl pink base
 $m-pink-l1: rgb(202, 47, 115) !default;
@@ -423,8 +423,8 @@ $action-primary-fg: $white !default;
 $action-primary-shadow: darken(theme-color("primary"), 20%) !default;
 $action-primary-focused-bg: darken(theme-color("primary"), 10%) !default;
 $action-primary-focused-fg: $white !default;
-$action-primary-active-bg: theme-color("primary") !default;
-$action-primary-active-fg: darken(theme-color("primary"), 20%) !default;
+$action-primary-active-bg: darken(theme-color("primary"), 20%) !default;
+$action-primary-active-fg: theme-color("primary") !default;
 $action-primary-active-shadow: darken(theme-color("primary"), 10%) !default;
 $action-primary-active-focused-fg: darken(theme-color("primary"), 20%) !default;
 $action-primary-active-focused-shadow: darken(theme-color("primary"), 20%) !default;

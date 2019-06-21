@@ -9,7 +9,7 @@ $forum-color-background-light: rgb(245, 245, 245) !default;
 // contextual color variables
 $forum-color-background: theme-color("inverse");
 $forum-color-active-thread: $forum-color-primary !default;
-$forum-color-hover: rgb(6, 86, 131) !default;
+$forum-color-hover: theme-color("primary") !default;
 $forum-color-active-text: $white !default;
 $forum-color-pinned: rgb(152, 44, 98) !default;
 $forum-color-reported: rgb(152, 44, 98) !default;
