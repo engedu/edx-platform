@@ -482,7 +482,7 @@ $courseware-header-bg: transparent !default;
 $courseware-footer-border: none !default;
 $courseware-footer-shadow: none !default;
 $courseware-footer-margin: 0 !default;
-$courseware-border-bottom-color: rgb(68, 162, 222) !default;
+$courseware-border-bottom-color: theme-color("primary") !default;
 $courseware-button-border-color: rgb(230, 230, 230) !default;
 $courseware-hover-color: rgb(51, 52, 53) !default;
 $courseware-navigation-color: theme-color("primary") !default;

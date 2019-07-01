@@ -213,7 +213,7 @@
                 content: "";
                 border-left: 6px solid transparent;
                 border-right: 6px solid transparent;
-                border-top: 7px solid $blue;
+                border-top: 7px solid theme-color("primary");
                 position: absolute;
                 right: 10px;
                 bottom: 20px;
@@ -544,8 +544,8 @@
 
         @include font-size(18);
 
-        border: 1px solid $blue;
-        color: $blue;
+        border: 1px solid theme-color("primary");
+        color: theme-color("primary");
         padding: 11px 14px;
         line-height: normal;
         margin: 20px 0;
@@ -618,8 +618,8 @@
 
             @include margin-left(25px);
 
-            border-color: $blue;
-            color: $blue;
+            border-color: theme-color("primary");
+            color: theme-color("primary");
             padding: 11px 14px;
             line-height: normal;
           }
