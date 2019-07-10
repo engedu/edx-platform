@@ -1,0 +1,6 @@
+projectKey=openedx:edx-platform
+serverUrl=http://localhost:9000
+serverVersion=7.8.0.26217
+dashboardUrl=http://localhost:9000/dashboard?id=openedx%3Aedx-platform
+ceTaskId=AWt908yHJQbM3FUKAcgX
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWt908yHJQbM3FUKAcgX

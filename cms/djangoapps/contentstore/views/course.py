@@ -1746,11 +1746,12 @@ def notification_settings_handler(request, course_key_string):
     with modulestore().bulk_operations(course_key):
         course_module = get_course_and_check_access(course_key, request.user, depth=None)
         course_structure = _course_outline_json(request, course_module)
+        new_json = _get_course_for_notify(course_structure)
         if 'text/html' in request.META.get('HTTP_ACCEPT', '') and request.method == 'GET':
             settings_context = {
                 'context_course': course_module,
                 'course_locator': course_key,
-                'course_structure': course_structure,
+                'course_structure': new_json,
                 'lms_link_for_about_page': get_link_for_about_page(course_module),
                 'notification_settings_url': reverse_course_url('notification_settings_handler', course_key),
             }
@@ -1765,6 +1766,27 @@ def notification_settings_handler(request, course_key_string):
                 raise NotImplementedError()
             else:
                 raise NotImplementedError()
+
+
+def _get_course_for_notify(course_structure):
+    # result = dict()
+    # children = course_structure['child_info']
+    # if children['category'] == "sequential":
+    #         for child in children:
+    #             child['notification'] = 1
+    #     return "FUCK"
+    # else:
+    #     result = course_structure
+    #     return result
+    essential = course_structure
+    for i in range(len(essential['child_info']['children'])):
+        for j in range(len(essential['child_info']['children'][i]['child_info']['children'])):
+            essential['child_info']['children'][i]['child_info']['children'][j]['notification'] = []
+    return essential
+
+
+
+
     # """
     # Course settings for dates and about pages
     # GET
