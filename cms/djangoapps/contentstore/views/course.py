@@ -94,6 +94,8 @@ from .component import ADVANCED_COMPONENT_TYPES
 from .item import create_xblock_info
 from .library import LIBRARIES_ENABLED, get_library_creator_status
 
+from notifications.model import Notifications
+
 log = logging.getLogger(__name__)
 
 __all__ = ['course_info_handler', 'course_handler', 'course_listing',
@@ -1781,7 +1783,7 @@ def _get_course_for_notify(course_structure):
     essential = course_structure
     for i in range(len(essential['child_info']['children'])):
         for j in range(len(essential['child_info']['children'][i]['child_info']['children'])):
-            essential['child_info']['children'][i]['child_info']['children'][j]['notification'] = []
+            essential['child_info']['children'][i]['child_info']['children'][j]['notification'] = ""
     return essential
 
 
