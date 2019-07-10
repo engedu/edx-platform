@@ -42,17 +42,12 @@ define(['js/views/validation',
                     return self.model.attributes.child_info.children[key].display_name;
                 }),
                     function (key) {
-                        // if (self.render_deprecated || !self.model.get(key).deprecated) {
-                        //     HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.get(key)));
-                        // }
-                        // console.log(self.model.attributes.child_info.children[key]);
                         HtmlUtils.append(listEle$, self.renderTemplate(key, self.model.attributes.child_info.children[key]));
-
                     });
 
-                var policyValues = listEle$.find('.json');
-                _.each(policyValues, this.attachJSONEditor, this);
-                return this;
+                // var policyValues = listEle$.find('.json');
+                // _.each(policyValues, this.attachJSONEditor, this);
+                // return this;
             },
             attachJSONEditor: function (textarea) {
                 // Since we are allowing duplicate keys at the moment, it is possible that we will try to attach
@@ -114,40 +109,54 @@ define(['js/views/validation',
                     }
                 });
             },
-            saveView: function () {
+            updateModel: function (event) {
+                console.log(event.currentTarget.id)
+                this.model.attributes.child_info.children.forEach(child => {
+                    child.child_info.children.forEach(child2 => {
+                        if(child2.id == event.currentTarget.id){
+                            child2['notification'] = event.currentTarget.value;
+                        }
+                    })
+                })
+                console.log(this);
+                // this.model.save()
+                ValidatingView.prototype.showNotificationBar.call(this,
+                    this.save_message,
+                    _.bind(this.saveView, this),
+                    _.bind(this.revertView, this));
                 // TODO one last verification scan:
                 //    call validateKey on each to ensure proper format
                 //    check for dupes
-                var self = this;
-                this.model.save({}, {
-                    success: function () {
-                        var title = gettext('Your policy changes have been saved.');
-                        var message = gettext('No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.');  // eslint-disable-line max-len
-                        self.render();
-                        self.showSavedBar(title, message);
-                        analytics.track('Saved Advanced Settings', {
-                            course: course_location_analytics
-                        });
-                    },
-                    silent: true,
-                    error: function (model, response, options) {
-                        var json_response, reset_callback, err_modal;
+                // var self = this;
+                // this.model.save({}, {
+                //     success: function () {
+                //         var title = gettext('Your policy changes have been saved.');
+                //         var message = gettext('No validation is performed on policy keys or value pairs. If you are having difficulties, check your formatting.');  // eslint-disable-line max-len
+                //         self.render();
+                //         self.showSavedBar(title, message);
+                //         analytics.track('Saved Advanced Settings', {
+                //             course: course_location_analytics
+                //         });
+                //     },
+                //     silent: true,
+                //     error: function (model, response, options) {
+                //         var json_response, reset_callback, err_modal;
 
-                        /* Check that the server came back with a bad request error*/
-                        if (response.status === 400) {
-                            json_response = $.parseJSON(response.responseText);
-                            reset_callback = function () {
-                                self.revertView();
-                            };
+                //         /* Check that the server came back with a bad request error*/
+                //         if (response.status === 400) {
+                //             json_response = $.parseJSON(response.responseText);
+                //             reset_callback = function () {
+                //                 self.revertView();
+                //             };
 
-                            /* initialize and show validation error modal */
-                            err_modal = new ValidationErrorModal();
-                            err_modal.setContent(json_response);
-                            err_modal.setResetCallback(reset_callback);
-                            err_modal.show();
-                        }
-                    }
-                });
+                //             /* initialize and show validation error modal */
+                //             err_modal = new ValidationErrorModal();
+                //             err_modal.setContent(json_response);
+                //             err_modal.setResetCallback(reset_callback);
+                //             err_modal.show();
+                //         }
+                //     }
+                // });
             },
             revertView: function () {
                 var self = this;

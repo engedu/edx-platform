@@ -15,14 +15,49 @@
                     <%= child.due_date %>
                 </div>
                 <div>
-                    <label class="sr" for="<%= valueUniqueId %>"><%= display_name %></label>
-                    <select style="width: 150px" id="<%= valueUniqueId %>">
-                        <option value="1">1 day</option>
-                        <option value="2">2 day</option>
-                        <option value="3">3 day</option>
-                        <option value="7">7 day</option>
-                        <option value="15">15 day</option>
-                        <option value="30">30 day</option>
+                    <label class="sr" for="<%= child.id %>"><%= display_name %></label>
+                    <select style="width: 150px" id="<%= child.id %>">
+                        <% if(child.notification == ""){ %>
+                            <option value="" selected="selected">No notification</option>
+                        <% } else { %>
+                            <option value="">No notification</option>
+                        <% } %>
+                        
+                        <% if(child.notification == "1"){ %>
+                            <option value="1" selected="selected">1 day</option>
+                        <% } else { %>
+                            <option value="1">1 day</option>
+                        <% } %>
+
+                        <% if(child.notification == "2"){ %>
+                            <option value="2" selected="selected">2 day</option>
+                        <% } else { %>
+                            <option value="2">2 day</option>
+                        <% } %>
+
+                        <% if(child.notification == "3"){ %>
+                            <option value="3" selected="selected">3 day</option>
+                        <% } else { %>
+                            <option value="3">3 day</option>
+                        <% } %>
+
+                        <% if(child.notification == "7"){ %>
+                            <option value="7" selected="selected">7 day</option>
+                        <% } else { %>
+                            <option value="7">7 day</option>
+                        <% } %>
+
+                        <% if(child.notification == "15"){ %>
+                            <option value="15" selected="selected">15 day</option>
+                        <% } else { %>
+                            <option value="15">15 day</option>
+                        <% } %>
+
+                        <% if(child.notification == "30"){ %>
+                            <option value="30" selected="selected">30 day</option>
+                        <% } else { %>
+                            <option value="30">30 day</option>
+                        <% } %>
                     </select>
                 </div>
             </div>

@@ -477,7 +477,7 @@
 
   margin: 0 auto;
   width: flex-grid(12);
-  max-width: $fg-max-width;
+  // max-width: $fg-max-width;
 
   strong {
     @extend %t-strong;
