@@ -2062,7 +2062,7 @@ INSTALLED_APPS = [
 
     # Display status message to students
     'status',
-
+    'line_notify',
     # For asset pipelining
     'edxmako.apps.EdxMakoConfig',
     'pipeline',

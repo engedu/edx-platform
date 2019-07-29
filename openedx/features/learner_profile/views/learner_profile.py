@@ -20,7 +20,9 @@ from openedx.core.djangoapps.user_api.errors import UserNotAuthorized, UserNotFo
 from openedx.core.djangoapps.user_api.preferences.api import get_user_preferences
 from openedx.core.djangoapps.util.user_messages import PageLevelMessages
 from openedx.core.djangolib.markup import HTML, Text
-from student.models import User
+from student.models import User, CourseEnrollment
+from student.views import get_course_enrollments
+from line_notify.models import LineToken
 
 from .. import SHOW_PROFILE_MESSAGE
 
@@ -96,6 +98,13 @@ def learner_profile_context(request, profile_username, user_is_staff):
     profile_user = User.objects.get(username=profile_username)
     logged_in_user = request.user
 
+    line_token = LineToken.objects.filter(user=logged_in_user)
+    line_context = {'status': 0}
+
+    if len(line_token):
+        line_context['token'] = line_token[0].token
+        line_context['status'] = line_token[0].status
+
     own_profile = (logged_in_user.username == profile_username)
 
     account_settings_data = get_account_settings(request, [profile_username])[0]
@@ -107,6 +116,9 @@ def learner_profile_context(request, profile_username, user_is_staff):
         username=profile_user.username,
         own_profile=own_profile,
     )
+
+    # course_enrollments = list(get_course_enrollments(logged_in_user, [], []))
+    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
 
     context = {
         'own_profile': own_profile,
@@ -135,6 +147,8 @@ def learner_profile_context(request, profile_username, user_is_staff):
             'backpack_ui_img': staticfiles_storage.url('certificates/images/backpack-ui.png'),
             'platform_name': configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME),
             'social_platforms': settings.SOCIAL_PLATFORMS,
+            'line_context': line_context,
+            # 'course_enrollments': course_enrollments,
         },
         'show_program_listing': ProgramsApiConfig.is_enabled(),
         'show_dashboard_tabs': True,
