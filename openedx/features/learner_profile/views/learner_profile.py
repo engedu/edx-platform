@@ -117,8 +117,17 @@ def learner_profile_context(request, profile_username, user_is_staff):
         own_profile=own_profile,
     )
 
-    # course_enrollments = list(get_course_enrollments(logged_in_user, [], []))
-    # course_enrollments.sort(key=lambda x: x.created, reverse=True)
+    course_enrollments = list(get_course_enrollments(logged_in_user, [], []))
+    course_enrollments.sort(key=lambda x: x.created, reverse=True)
+
+    courses_context = []
+
+    for course_enrollment in course_enrollments:
+        course_context = {
+            'displayname': course_enrollment.course_overview.display_name,
+            'course_id': course_enrollment.course_id
+        }
+        courses_context.append(course_context)
 
     context = {
         'own_profile': own_profile,
@@ -148,7 +157,7 @@ def learner_profile_context(request, profile_username, user_is_staff):
             'platform_name': configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME),
             'social_platforms': settings.SOCIAL_PLATFORMS,
             'line_context': line_context,
-            # 'course_enrollments': course_enrollments,
+            'courses_context': courses_context,
         },
         'show_program_listing': ProgramsApiConfig.is_enabled(),
         'show_dashboard_tabs': True,
