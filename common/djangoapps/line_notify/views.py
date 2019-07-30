@@ -4,6 +4,7 @@ from line_notify.models import LineToken
 from django.contrib.auth.models import User
 import requests
 
+
 def line_login(request):
     uid = request.GET['uid']
     user = User.objects.get(id=uid)
@@ -14,7 +15,6 @@ def line_login(request):
     url = url + "&redirect_uri=https://www.whale.education/notify/callback/?uid=" + uid
     url = url + "&scope=notify"
     url = url + "&state=mujxi7dKk"
-    url = url + "&response_mode=form_post"
     # check token for this uid
     if query:
         # have token then delete and return login page
