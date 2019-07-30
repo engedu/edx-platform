@@ -11,7 +11,7 @@ def line_login(request):
     url = "https://notify-bot.line.me/oauth/authorize"
     url = url + "?response_type=code"
     url = url + "&client_id=2FiajbKaqThu1rRS8CdJYM"
-    url = url + "&redirect_uri=https://www.whale.education/notify/callback/" + uid + "/"
+    url = url + "&redirect_uri=https://www.whale.education/notify/callback/?uid=" + uid
     url = url + "&scope=notify"
     url = url + "&state=mujxi7dKk"
     url = url + "&response_mode=form_post"
@@ -29,13 +29,14 @@ def revoke_token(request):
     return HttpResponse('revoke-token')
 
 
-def callback(request, uid):
+def callback(request):
     code = request.GET['code']
+    uid = request.GET['uid']
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     res = requests.post('https://notify-bot.line.me/oauth/token', data={
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "https://www.whale.education/notify/callback/" + uid + "/",
+        "redirect_uri": "https://www.whale.education/notify/callback/?uid=" + uid,
         "client_id": "2FiajbKaqThu1rRS8CdJYM",
         "client_secret": "vTDF9Wi1tWzhM79PQpSp7pqDUhoK6Bx5jF8vGDOD9l0"
     }, headers=headers).json()
