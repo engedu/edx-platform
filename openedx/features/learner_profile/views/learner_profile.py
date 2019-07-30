@@ -97,7 +97,6 @@ def learner_profile_context(request, profile_username, user_is_staff):
     """
     profile_user = User.objects.get(username=profile_username)
     logged_in_user = request.user
-
     line_token = LineToken.objects.filter(user=logged_in_user)
     line_context = {'status': 0}
 
@@ -125,8 +124,7 @@ def learner_profile_context(request, profile_username, user_is_staff):
     for course_enrollment in course_enrollments:
         course_notify_status = 0
         if len(line_token):
-            course_notify = CourseNotify.objects.get(line_token=line_token, course_id=course_enrollment.course_id)
-            print(course_notify)
+            course_notify, created = CourseNotify.objects.get_or_create(line_token=line_token[0], course_id=course_enrollment.course_id, status=0)
             course_notify_status = course_notify.status
         course_context = {
             'displayname': course_enrollment.course_overview.display_name,
