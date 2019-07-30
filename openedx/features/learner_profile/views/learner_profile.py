@@ -22,7 +22,7 @@ from openedx.core.djangoapps.util.user_messages import PageLevelMessages
 from openedx.core.djangolib.markup import HTML, Text
 from student.models import User, CourseEnrollment
 from student.views import get_course_enrollments
-from line_notify.models import LineToken
+from line_notify.models import LineToken, CourseNotify
 
 from .. import SHOW_PROFILE_MESSAGE
 
@@ -123,9 +123,15 @@ def learner_profile_context(request, profile_username, user_is_staff):
     courses_context = []
 
     for course_enrollment in course_enrollments:
+        course_notify_status = 0
+        if len(line_token):
+            course_notify = CourseNotify.objects.get(line_token=line_token, course_id=course_enrollment.course_id)
+            print(course_notify)
+            course_notify_status = course_notify.status
         course_context = {
             'displayname': course_enrollment.course_overview.display_name,
-            'course_id': course_enrollment.course_id
+            'course_id': course_enrollment.course_id,
+            'status': course_notify_status,
         }
         courses_context.append(course_context)
 
