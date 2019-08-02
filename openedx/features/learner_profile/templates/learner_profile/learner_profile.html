@@ -63,44 +63,89 @@ from openedx.core.djangolib.markup import HTML
                 <div class="wrapper-profile-section-container-two is-hidden">
                     <div class="wrapper-profile-bio"></div>
                     <div class="u-field-textarea line-setting">
+                        <!-- <a class="btn btn-primary" id="connect" onClick="connect(${data['profile_user_id']})">Subscribe</a> -->
                         <h3 class="u-field-title">Line Notification Setting</h3>
                         % if data['line_context']['status'] == 0:
-                            <a class="btn btn-primary" id="connect" onClick="connect(${data['profile_user_id']})">connect</a>
-                            <script type="text/javascript">
-                                var css = '.btn:hover{ cursor: pointer }';
-                                var style = document.createElement('style');
-                                if (style.styleSheet) {
-                                    style.styleSheet.cssText = css;
-                                } else {
-                                    style.appendChild(document.createTextNode(css));
-                                }
-                                document.getElementById("connect").appendChild(style);
+                            <div class="course-selection">
+                                <p class="message-actions">
+                                    <a class="btn btn-primary" id="connect" onClick="connect(${data['profile_user_id']})">
+                                        Connect to Line Notification
+                                    </a>
+                                </p>
+                            </div>
 
+                            <script type="text/javascript">                                
                                 function connect(uid) {
                                     window.location.href = window.location.origin + "/notify/line-login/?uid=" + uid;
                                 }
                             </script>
                            
                         % elif data['line_context']['status'] == 1:
-                            <div>
-                                <a class="btn btn-secondary" id="disconnect" onClick="disconnect(${data['profile_user_id']})">Disconnect</a>
-                            </div>
-                            % for course in data['courses_context']:
-                                ${course}
-                            % endfor
-
+                            <div class="course-selection">
+                                <h4 class="message-header">Select courses to recieve notification.</h4>
+                                    <form class="form-group" id="form" method="POST" action="/notify/save_config">
+                                        % for course in data['courses_context']:
+                                            <div class="displayname">
+                                                ${course['displayname']}
+                                            </div>
+                                            <div class="form-check">
+                                                % if course['status'] == 1:
+                                                    <input class="form-check-input" type="radio" name="${course['course_id']}" value="1" id="${course['course_id']}1" checked>
+                                                    <label class="form-check-label" style="display: inline-block;" for="${course['course_id']}1">
+                                                            รับ
+                                                    </label>
+                                                    <input class="form-check-input" type="radio" name="${course['course_id']}" value="0" id="${course['course_id']}0">
+                                                    <label class="form-check-label" style="display: inline-block;" for="${course['course_id']}0">
+                                                            ไม่รับ
+                                                    </label>
+                                                % else:
+                                                    <input class="form-check-input" type="radio" name="${course['course_id']}" value="1" id="${course['course_id']}1">
+                                                    <label class="form-check-label" style="display: inline-block;" for="${course['course_id']}1">
+                                                            รับ
+                                                    </label>
+                                                    <input class="form-check-input" type="radio" name="${course['course_id']}" value="0" id="${course['course_id']}0" checked>
+                                                    <label class="form-check-label" style="display: inline-block;" for="${course['course_id']}0">
+                                                            ไม่รับ
+                                                    </label>
+                                                % endif
+                                            </div>
+                                        % endfor
+                                        <p class="message-actions">
+                                            <a class="btn btn-primary" onClick="submit()">Save</a>
+                                            <!-- <input type="submit" value="send" /> -->
+                                            <a class="btn btn-secondary" id="disconnect" onClick="disconnect(${data['profile_user_id']})">Unsubscribe</a>
+                                        </p>
+                                    </form>
+                            </div>    
                             <script type="text/javascript">
-                            var css = '.btn:hover{ cursor: pointer }';
-                                var style = document.createElement('style');
-                                if (style.styleSheet) {
-                                    style.styleSheet.cssText = css;
-                                } else {
-                                    style.appendChild(document.createTextNode(css));
-                                }
-                                document.getElementById("disconnect").appendChild(style);
-                                
                                 function disconnect(uid) {
                                     window.location.href = window.location.origin + "/notify/revoke_token/?uid=" + uid;
+                                }
+
+                                function submit() {
+                                    var data = {};
+                                    $('#form').find('[name]').each(function (index, value) {
+                                        var el = $(this),
+                                            name = el.attr('name'),
+                                            value = el.val();
+                                        if (el.attr('checked')) {
+                                            data[name] = value;
+                                        }
+                                    })
+                                    $.ajax({
+                                        url: $('#form').attr('action'),
+                                        type: $('#form').attr('method'),
+                                        dataType: 'json',
+                                        data: data,
+                                        success: function (data) {
+                                            alert('Submitted');
+                                        },
+                                        error: function (xhr, err) {
+                                            console.log(err)
+                                            alert('Error');
+                                        }
+                                    });
+                                    return false;
                                 }
                             </script>
                         % endif
