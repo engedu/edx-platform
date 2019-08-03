@@ -11,7 +11,6 @@ from .tasks import send_line_notify
 
 
 def line_login(request):
-    send_line_notify.delay()
     uid = request.GET['uid']
     user = User.objects.get(id=uid)
     query = LineToken.objects.filter(user=user)
@@ -106,6 +105,7 @@ def check_status(request):
     return HttpResponse('check_status')
 
 def save_config(request):
+    send_line_notify.delay()
     uid = request.GET['uid']
     course_id = request.POST
     courses = course_id.dict()
