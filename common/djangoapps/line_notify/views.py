@@ -14,29 +14,57 @@ def line_login(request):
     uid = request.GET['uid']
     user = User.objects.get(id=uid)
     query = LineToken.objects.filter(user=user)
+    # check token for this uid
+    if query:
+        query.delete()
+    # create state unique param for checking callback uid
+    state = uuid.uuid4()
+    create = LineToken(user=user, token="0", state=state)
+    create.save()
     url = "https://notify-bot.line.me/oauth/authorize"
     url = url + "?response_type=code"
     url = url + "&client_id=2FiajbKaqThu1rRS8CdJYM"
     url = url + "&redirect_uri=https://www.whale.education/notify/callback/?uid=" + uid
     url = url + "&scope=notify"
-    url = url + "&state=mujxi7dKk"
-    # check token for this uid
-    if query:
-        # have token then delete and return login page
-        query.delete()
-        return HttpResponseRedirect(url)
-    else:
-        # dont have token then return login page
-        return HttpResponseRedirect(url)
+    url = url + "&state=" + str(state)
+    return HttpResponseRedirect(url)
 
 
 def revoke_token(request):
-    return HttpResponse('revoke-token')
+    uid = request.GET['uid']
+    try:
+        user = User.objects.get(id=uid)
+        query = LineToken.objects.get(user=user)
+    except ObjectDoesNotExist:
+        return JsonResponse({
+                'status': 'failed',
+                'message': 'Data does not exist.'
+            },
+            status=404)
+    headers = {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + query['token']}
+    res = requests.post('https://notify-api.line.me/api/revoke', headers=headers).json()
+    if res['status'] == 200:
+        query.delete()
+        return JsonResponse({
+            'status': 'successful'
+        })
+    else:
+        return JsonResponse({
+            'status': 'failed',
+            'message': 'Cannot revoke token from Line API'
+        }, status=400)
+    
 
 
 def callback(request):
     code = request.GET['code']
     uid = request.GET['uid']
+    state = request.GET['state']
+    query_user = User.objects.get(id=uid)
+    try:
+        query_state = LineToken.objects.get(user=query_user, state=state)
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('failed'))
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
     res = requests.post('https://notify-bot.line.me/oauth/token', data={
         "grant_type": "authorization_code",
@@ -49,11 +77,11 @@ def callback(request):
     # store access token and uid in db to use in another API
     user = User.objects.get(id=uid)
     LineToken.objects.get_or_create(user=user, token=access_token, status=1)
-    return HttpResponseRedirect(reverse('complete'))
+    return HttpResponseRedirect('/')
 
 
-def complete(request):
-    return HttpResponse('complete')
+def failed(request):
+    return HttpResponse('failed: User not match')
 
 
 @api_view(['POST'])
@@ -98,6 +126,6 @@ def save_config(request):
             CourseNotify.objects.filter(course_id=item, line_token=token).update(status=courses[item])
     return JsonResponse(
         {
-            'status': 'success'
+            'status': 'successful'
         }
     )

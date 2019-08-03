@@ -69,17 +69,10 @@ from openedx.core.djangolib.markup import HTML
                             <div class="course-selection">
                                 <p class="message-actions">
                                     <a class="btn btn-primary" id="connect" onClick="connect(${data['profile_user_id']})">
-                                        Connect to Line Notification
+                                        Subscribe Line Notification
                                     </a>
                                 </p>
                             </div>
-
-                            <script type="text/javascript">                                
-                                function connect(uid) {
-                                    window.location.href = window.location.origin + "/notify/line-login/?uid=" + uid;
-                                }
-                            </script>
-                           
                         % elif data['line_context']['status'] == 1:
                             <div class="course-selection">
                                 <h4 class="message-header">Please choose a course that requires notification.</h4>
@@ -127,43 +120,47 @@ from openedx.core.djangolib.markup import HTML
                                         </p>
                                     </form>
                             </div>    
-                            <script type="text/javascript">
-                                function disconnect(uid) {
-                                    window.location.href = window.location.origin + "/notify/revoke_token/?uid=" + uid;
-                                }
-
-                                function showSave() {
-                                    document.getElementById('save').style.display = 'inline-block';
-                                }
-
-                                function submit(uid) {
-                                    var data = {};
-                                    $('#form').find('[name]').each(function (index, value) {
-                                        var el = $(this),
-                                            name = el.attr('name');
-                                        if (el.attr('checked')) {
-                                            data[name] = '1';
-                                        }else{
-                                            data[name] = '0'
-                                        }
-                                    })
-                                    $.ajax({
-                                        url: '/notify/save_config/?uid=' + uid,
-                                        type: $('#form').attr('method'),
-                                        dataType: 'json',
-                                        data: data,
-                                        success: function (data) {
-                                            alert('Submitted');
-                                        },
-                                        error: function (xhr, err) {
-                                            console.log(err)
-                                            alert('Error');
-                                        }
-                                    });
-                                    return false;
-                                }
-                            </script>
                         % endif
+                        <script type="text/javascript">
+                            function connect(uid) {
+                                window.location.href = window.location.origin + "/notify/line-login/?uid=" + uid;
+                            }
+                            
+                            function disconnect(uid) {
+                                window.location.href = window.location.origin + "/notify/revoke_token/?uid=" + uid;
+                            }
+
+                            function showSave() {
+                                document.getElementById('save').style.display = 'inline-block';
+                            }
+
+                            function submit(uid) {
+                                var data = {};
+                                $('#form').find('[name]').each(function (index, value) {
+                                    var el = $(this),
+                                        name = el.attr('name');
+                                    if (el.attr('checked')) {
+                                        data[name] = 1
+                                    }else{
+                                        data[name] = 0
+                                    }
+                                })
+                                $.ajax({
+                                    url: '/notify/save_config/?uid=' + uid,
+                                    type: $('#form').attr('method'),
+                                    dataType: 'json',
+                                    data: data,
+                                    success: function (data) {
+                                        alert('Submitted');
+                                    },
+                                    error: function (xhr, err) {
+                                        console.log(err)
+                                        alert('Error');
+                                    }
+                                });
+                                return false;
+                            }
+                        </script>
                     </div>
                     % if achievements_fragment:
                         ${HTML(achievements_fragment.body_html())}
