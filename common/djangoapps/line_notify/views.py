@@ -4,6 +4,7 @@ from line_notify.models import LineToken, CourseNotify
 from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from opaque_keys.edx.keys import CourseKey
 import requests
 import uuid
 from .tasks import send_line_notify
@@ -120,7 +121,8 @@ def save_config(request):
             status=404
         )
     for item in course_id:
-        get, created = CourseNotify.objects.get_or_create(course_id=item, line_token=token, status=courses[item])  
+        id = CourseKey.from_string(item)
+        get, created = CourseNotify.objects.get_or_create(course_id=id, line_token=token, status=courses[item])  
         if not created:
             CourseNotify.objects.filter(course_id=item, line_token=token).update(status=courses[item])
     return JsonResponse(
