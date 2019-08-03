@@ -124,8 +124,11 @@ def learner_profile_context(request, profile_username, user_is_staff):
     for course_enrollment in course_enrollments:
         course_notify_status = 0
         if len(line_token):
-            course_notify, created = CourseNotify.objects.get_or_create(line_token=line_token[0], course_id=course_enrollment.course_id, status=0)
-            course_notify_status = course_notify.status
+            course_notify = CourseNotify.objects.filter(line_token=line_token[0], course_id=course_enrollment.course_id)
+            if len(course_notify) == 0:
+                course_notify = CourseNotify.objects.create(line_token=line_token[0], course_id=course_enrollment.course_id, status=1)  
+            # course_notify, created = CourseNotify.objects.get_or_create(line_token=line_token[0], course_id=course_enrollment.course_id, status=0)
+            course_notify_status = course_notify[0].status
         course_context = {
             'displayname': course_enrollment.course_overview.display_name,
             'course_id': course_enrollment.course_id,
