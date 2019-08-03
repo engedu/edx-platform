@@ -60,8 +60,8 @@ def callback(request):
     code = request.GET['code']
     uid = request.GET['uid']
     state = request.GET['state']
-    query_user = User.objects.get(id=uid)
     try:
+        query_user = User.objects.get(id=uid)
         query_state = LineToken.objects.get(user=query_user, state=state)
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse('failed'))
@@ -75,8 +75,7 @@ def callback(request):
     }, headers=headers).json()
     access_token = res.get("access_token")
     # store access token and uid in db to use in another API
-    user = User.objects.get(id=uid)
-    LineToken.objects.get_or_create(user=user, token=access_token, status=1)
+    LineToken.objects.filter(user=query_user, state=state).update(token=access_token, status=1)
     return HttpResponseRedirect('/')
 
 
