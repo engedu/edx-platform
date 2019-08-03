@@ -122,9 +122,7 @@ def save_config(request):
         )
     for item in course_id:
         id = CourseKey.from_string(item)
-        get, created = CourseNotify.objects.get_or_create(course_id=id, line_token=token, status=courses[item])  
-        if not created:
-            CourseNotify.objects.filter(course_id=item, line_token=token).update(status=courses[item])
+        CourseNotify.objects.filter(course_id=id, line_token=token).update(status=courses[item])
     return JsonResponse(
         {
             'status': 'successful'
