@@ -1,13 +1,16 @@
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from line_notify.models import LineToken, CourseNotify
+from rest_framework.decorators import api_view
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 import requests
 import uuid
+from .tasks import send_line_notify
 
 
 def line_login(request):
+    send_line_notify.delay()
     uid = request.GET['uid']
     user = User.objects.get(id=uid)
     query = LineToken.objects.filter(user=user)
@@ -53,8 +56,22 @@ def complete(request):
     return HttpResponse('complete')
 
 
+@api_view(['POST'])
 def post_message(request):
-    return HttpResponse('post_message')
+    _data = request.POST
+    message = _data['message']
+    uid = _data['uid']
+    user = User.objects.get(id=uid)
+    # get access_token from db by uid
+    # access_token = 'oYW2nJlmUyyucuI3uSNci9OWyerUa2e9Cf30b4Qn16Y'
+    query = LineToken.objects.get(user=user)
+    # result = line_token_schema.dump(query)
+    access_token = query.token
+    headers = {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + access_token}
+    res = requests.post('https://notify-api.line.me/api/notify', data={
+        "message": message
+    }, headers=headers).json()
+    return HttpResponse(res)
 
 
 def check_status(request):
