@@ -6,7 +6,8 @@ from opaque_keys.edx.django.models import CourseKeyField
 class LineToken(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     token = models.TextField()
-    status = models.IntegerField()
+    status = models.IntegerField(default=0)
+    state = models.UUIDField(unique=True, null=True)
 
 
 class CourseNotify(models.Model):

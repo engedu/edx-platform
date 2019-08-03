@@ -1,8 +1,10 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from line_notify.models import LineToken
+from line_notify.models import LineToken, CourseNotify
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 import requests
+import uuid
 
 
 def line_login(request):
@@ -57,3 +59,28 @@ def post_message(request):
 
 def check_status(request):
     return HttpResponse('check_status')
+
+def save_config(request):
+    uid = request.GET['uid']
+    course_id = request.POST
+    courses = course_id.dict()
+    try:
+        user = User.objects.get(id=uid)
+        token = LineToken.objects.get(user=user)
+    except ObjectDoesNotExist:
+        return JsonResponse(
+            {
+                'status': 'failed',
+                'message': 'Data does not exist.'
+            },
+            status=404
+        )
+    for item in course_id:
+        get, created = CourseNotify.objects.get_or_create(course_id=item, line_token=token, status=courses[item])  
+        if not created:
+            CourseNotify.objects.filter(course_id=item, line_token=token).update(status=courses[item])
+    return JsonResponse(
+        {
+            'status': 'success'
+        }
+    )
