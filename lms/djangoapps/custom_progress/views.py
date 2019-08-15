@@ -95,7 +95,8 @@ def _show_progress(request, course_key, student_id):
         'student': student,
         'grade_summary': course_grade.summary,
         'max_percent_grade': percent_grade['max'],
-        'min_percent_grade': percent_grade['min']
+        'min_percent_grade': percent_grade['min'],
+        'mean_percent_grade': percent_grade['mean']
     }
     return render_to_response("custom_progress/custom_progress.html", context)
 
@@ -108,18 +109,22 @@ def _percent_grade_course(request, course, course_key):
     ).order_by('username')
 
     course_grades = CourseGradeFactory().iter(enrolled_students, course=course)
-
+    course_grades_len = len(course_grades)
     max_percent_grade = 0.0
     min_percent_grade = 0.0
+    mean_percent_grade = 0.0
 
     for course_grade in course_grades:
+        mean_percent_grade = mean_percent_grade + course_grade.course_grade.percent
+
         if max_percent_grade < course_grade.course_grade.percent:
             max_percent_grade = course_grade.course_grade.percent
 
         if min_percent_grade >= course_grade.course_grade.percent:
             min_percent_grade = course_grade.course_grade.percent
 
-    percent_grade = {'max': max_percent_grade, 'min': min_percent_grade}
+    mean_percent_grade = mean_percent_grade / course_grades_len
+    percent_grade = {'max': max_percent_grade, 'min': min_percent_grade, 'mean': mean_percent_grade}
 
     return percent_grade
 
