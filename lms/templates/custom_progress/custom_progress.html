@@ -3,7 +3,7 @@
 <%namespace name='static' file='/static_content.html'/>
 <%inherit file="../main.html" />
 <%block name="bodyclass">view-new_tab_type is-in-course course</%block>
-<%block name="pagetitle">${_("Custom Progress")}</%block>
+<%block name="pagetitle">${_("Ranking Score")}</%block>
 <%block name="headextra">
     <%static:css group='style-course'/>
 </%block>
@@ -24,7 +24,7 @@
     ## This JavaScript is being HTML-escaped because it historically has, and it is not clear what
     ## the correct syntax is. For safety, maintain the previous behavior.
     ## xss-lint: disable=mako-invalid-js-filter
-    ${progress_graph.body(max_percent_grade, grade_summary['percent'], min_percent_grade, "grade-detail-graph")}
+    ${progress_graph.body(max_percent_grade, grade_summary['percent'], min_percent_grade, mean_percent_grade, "grade-detail-graph")}
 </script>
 </%block>
 
@@ -41,12 +41,14 @@
                     </div>
                 % endif
                 <h2 class="hd hd-2 progress-certificates-title">
-                    ${_("Course Progress for Student '{username}' ({email})").format(username=username, email=student.email)}
+                    ${_("Ranking score for Student '{username}' ({email})").format(username=username, email=student.email)}
                 </h2>
-                <h3 class="hd hd-2 mt-5">Ranking score</h3>
-                <!-- <div class="mt-3">
+                <!-- <h3 class="hd hd-2 mt-5">Ranking score</h3>
+                <div class="mt-3">
                     <p>Your percent score : ${grade_summary['percent']}</p>
                     <p>Highest percent score : ${max_percent_grade}</p>
+                    <p>Lowest percent score: ${min_percent_grade}</p>
+                    <p>Mean percent score: ${mean_percent_grade}</p>
                 </div> -->
                 %if not course.disable_progress_graph:
                 <div class="grade-detail-graph" id="grade-detail-graph" style="margin-top: 20px"></div>

@@ -7,8 +7,8 @@ class CustomProgressTab(CourseTab):
     The representation of the course teams view type.
     """
     type = "custom_progress"
-    name = "Custom Progress"
-    title = ugettext_noop("Custom Progress")
+    name = "Ranking Score"
+    title = ugettext_noop("Ranking Score")
     view_name = "custom_progress_view"
     is_default = True
     is_hideable = True
