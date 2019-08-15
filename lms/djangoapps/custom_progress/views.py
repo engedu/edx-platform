@@ -109,7 +109,7 @@ def _percent_grade_course(request, course, course_key):
     ).order_by('username')
 
     course_grades = CourseGradeFactory().iter(enrolled_students, course=course)
-    course_grades_len = len(course_grades)
+    course_grades_len = len(list(course_grades))
     max_percent_grade = 0.0
     min_percent_grade = 0.0
     mean_percent_grade = 0.0
