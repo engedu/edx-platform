@@ -7,7 +7,7 @@
 <%block name="headextra">
     <%static:css group='style-course'/>
 </%block>
-
+<%namespace name="progress_graph" file="/custom_progress/custom_progress_graph.js"/>
 <%
     from openedx.features.enterprise_support.utils import get_enterprise_learner_generic_name
 %>
@@ -15,6 +15,18 @@
 <%
     username = get_enterprise_learner_generic_name(request) or student.username
 %>
+
+<%block name="js_extra">
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.stack.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.symbol.js')}"></script>
+<script>
+    ## This JavaScript is being HTML-escaped because it historically has, and it is not clear what
+    ## the correct syntax is. For safety, maintain the previous behavior.
+    ## xss-lint: disable=mako-invalid-js-filter
+    ${progress_graph.body(max_percent_grade, grade_summary['percent'], 0.1, "grade-detail-graph")}
+</script>
+</%block>
 
 <%include file="/courseware/course_navigation.html" args="active_page='custom_progress'" />
 
@@ -32,10 +44,13 @@
                     ${_("Course Progress for Student '{username}' ({email})").format(username=username, email=student.email)}
                 </h2>
                 <h3 class="hd hd-2 mt-5">Ranking score</h3>
-                <div class="mt-3">
+                <!-- <div class="mt-3">
                     <p>Your percent score : ${grade_summary['percent']}</p>
                     <p>Highest percent score : ${max_percent_grade}</p>
-                </div>
+                </div> -->
+                %if not course.disable_progress_graph:
+                <div class="grade-detail-graph" id="grade-detail-graph" style="margin-top: 20px"></div>
+                %endif
             </section>
         </div>
     </div>
