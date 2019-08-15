@@ -24,7 +24,7 @@
     ## This JavaScript is being HTML-escaped because it historically has, and it is not clear what
     ## the correct syntax is. For safety, maintain the previous behavior.
     ## xss-lint: disable=mako-invalid-js-filter
-    ${progress_graph.body(max_percent_grade, grade_summary['percent'], 0.1, "grade-detail-graph")}
+    ${progress_graph.body(max_percent_grade, grade_summary['percent'], min_percent_grade, "grade-detail-graph")}
 </script>
 </%block>
 

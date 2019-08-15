@@ -85,7 +85,7 @@ def _show_progress(request, course_key, student_id):
 
     # for i in CourseGradeFactory().iter(enrolled_students, course_key):
     #     print(i)
-    max_percent_grade = _max_grade_course(request, course, course_key)
+    percent_grade = _percent_grade_course(request, course, course_key)
 
     # studio_url = get_studio_url(course, 'settings/grading')
     # checking certificate generation configuration
@@ -94,12 +94,13 @@ def _show_progress(request, course_key, student_id):
         "course": course,
         'student': student,
         'grade_summary': course_grade.summary,
-        'max_percent_grade': max_percent_grade
+        'max_percent_grade': percent_grade['max'],
+        'min_percent_grade': percent_grade['min']
     }
     return render_to_response("custom_progress/custom_progress.html", context)
 
 
-def _max_grade_course(request, course, course_key):
+def _percent_grade_course(request, course, course_key):
 
     enrolled_students = User.objects.filter(
         courseenrollment__course_id=course_key,
@@ -109,10 +110,16 @@ def _max_grade_course(request, course, course_key):
     course_grades = CourseGradeFactory().iter(enrolled_students, course=course)
 
     max_percent_grade = 0.0
+    min_percent_grade = 0.0
 
     for course_grade in course_grades:
         if max_percent_grade < course_grade.course_grade.percent:
             max_percent_grade = course_grade.course_grade.percent
 
-    return max_percent_grade
+        if min_percent_grade >= course_grade.course_grade.percent:
+            min_percent_grade = course_grade.course_grade.percent
+
+    percent_grade = {'max': max_percent_grade, 'min': min_percent_grade}
+
+    return percent_grade
 
