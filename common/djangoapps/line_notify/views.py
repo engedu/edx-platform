@@ -41,7 +41,7 @@ def revoke_token(request):
                 'message': 'Data does not exist.'
             },
             status=404)
-    headers = {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + query['token']}
+    headers = {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + query.token}
     res = requests.post('https://notify-api.line.me/api/revoke', headers=headers).json()
     if res['status'] == 200:
         query.delete()
@@ -105,7 +105,6 @@ def check_status(request):
     return HttpResponse('check_status')
 
 def save_config(request):
-    send_line_notify.delay()
     uid = request.GET['uid']
     course_id = request.POST
     courses = course_id.dict()

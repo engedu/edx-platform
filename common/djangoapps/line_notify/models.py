@@ -14,4 +14,5 @@ class CourseNotify(models.Model):
     line_token = models.ForeignKey(LineToken, on_delete=models.CASCADE)
     course_id = CourseKeyField(max_length=255, db_index=True)
     status = models.IntegerField()
+    is_notified = models.IntegerField(default=0)
 
