@@ -48,13 +48,14 @@ def send_line_notify(x):
             access_token = course.line_token.token
             print(access_token)            
             course.is_notified = 1
+            course.usage = course.usage + 1
             course.save()
 
             headers = {"Content-Type": "application/x-www-form-urlencoded", "Authorization": "Bearer " + access_token}
             res = requests.post('https://notify-api.line.me/api/notify', data={
                 'message': 'Alert from ' + str(pending['course_id']) + '\nDue Date at ' + str(pending['time'])
             }, headers=headers).json()
-            time.sleep(2)
+            time.sleep(1)
 
 
 @task(name='reset_notified', bind=True, default_retry_delay=30, max_retries=2)

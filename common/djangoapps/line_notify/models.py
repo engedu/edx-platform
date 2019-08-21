@@ -15,4 +15,5 @@ class CourseNotify(models.Model):
     course_id = CourseKeyField(max_length=255, db_index=True)
     status = models.IntegerField()
     is_notified = models.IntegerField(default=0)
+    usage = models.IntegerField()
 
