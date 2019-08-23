@@ -11,11 +11,6 @@
   <header class="primary" role="banner">
 
     <div class="wrapper wrapper-l">
-      <h1 class="branding">
-        <a class="brand-link" href="/">
-          <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
-        </a>
-      </h1>
 
       % if context_course:
       <%
@@ -39,6 +34,11 @@
             checklists_url = reverse('checklists_handler', kwargs={'course_key_string': unicode(course_key)})
 
       %>
+      <div class="branding">
+          <a class="brand-link" href="/">
+            <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+          </a>
+        </div>
       <h2 class="info-course">
         <span class="sr">${_("Current Course:")}</span>
         <a class="course-link" href="${index_url}">
@@ -147,6 +147,11 @@
             lib_users_url = reverse('manage_library_users', kwargs={'library_key_string': unicode(library_key)})
             export_url = reverse('export_handler', kwargs={'course_key_string': unicode(library_key)})
       %>
+      <div class="branding">
+          <a class="brand-link" href="/">
+            <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+          </a>
+        </div>
       <h2 class="info-course">
         <span class="sr">${_("Current Library:")}</span>
         <a class="course-link" href="${index_url}">
@@ -189,6 +194,21 @@
           </li>
         </ol>
       </nav>
+      % else:
+        <div class="branding">
+          <a class="brand-link" href="/">
+            <img class="brand-image" src="${static.url('images/studio-logo.png')}" alt="${settings.STUDIO_NAME}" />
+          </a>
+          <a class="platform-name">
+              <span class="short">
+                  WHALE
+              </span>
+              <br>
+              <span class="long">
+                  WHolistic Approach Learning Environment
+              </span>
+            </a>
+        </div>
       % endif
     </div>
 

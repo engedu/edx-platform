@@ -26,8 +26,8 @@
 
     a {
       @include float(left);
-      @include margin($baseline*0.75, 0, 0, $baseline*2);
 
+      padding: 0 0 0 $baseline*2;
       display: block;
 
       .logo {
@@ -45,6 +45,28 @@
         .logo {
           @include margin-left(-50%);
         }
+      }
+    }
+
+    .platform-name{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: $header-logo-height;
+      line-height: 0.7;
+      color: theme-color("primary");
+      padding: 0 0 0 20px;
+      text-decoration: none;
+      .short{
+        font-size: 20px;
+      }
+
+      .long{
+        font-size: 14px;
+      }
+
+      &:hover{
+        color: theme-color("primary");
       }
     }
 

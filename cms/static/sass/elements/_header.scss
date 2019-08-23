@@ -124,14 +124,36 @@
 
   // specific elements - branding
   .branding {
-    padding: ($baseline*0.75) 0;
+    padding: 7px 0;
+    display: inline-flex;
 
     a {
-      display: block;
+      display: inline;
 
       img {
-        max-height: ($baseline*2);
-        display: block;
+        max-height: ($baseline*3);
+      }
+    }
+
+    .platform-name{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 60px;
+      line-height: 0.7;
+      color: theme-color("primary");
+      padding: 0 0 0 20px;
+      text-decoration: none;
+      .short{
+        font-size: 20px;
+      }
+
+      .long{
+        font-size: 14px;
+      }
+
+      &:hover{
+        color: theme-color("primary");
       }
     }
   }
@@ -303,11 +325,11 @@
 .view-util {
   .wrapper-header {
     .wrapper-l {
-      width: flex-grid(2, 12);
+      width: flex-grid(6, 12);
     }
 
     .wrapper-r {
-      width: flex-grid(10, 12);
+      width: flex-grid(6, 12);
     }
 
     .branding {
