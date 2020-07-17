@@ -74,8 +74,8 @@ def index(request):
 
     #  we do not expect this case to be reached in cases where
     #  marketing and edge are enabled
-    return student.views.index(request, user=request.user)
-
+    # return student.views.index(request, user=request.user)
+    return redirect(reverse("courses"))
 
 @ensure_csrf_cookie
 @cache_if_anonymous()
